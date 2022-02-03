@@ -6,21 +6,34 @@ const EPSILON: f32 = 0.00001;
 const MAX_TRACE_DISTANCE: i32 = 1000;
 
 pub struct Camera {
-    width: usize,
-    height: usize,
+    width: u32,
+    height: u32,
     position: Vec3,
     forward: Vec3,
     up: Vec3,
 }
 
+#[derive(Clone, Copy)]
+pub struct Color {
+    pub r: u8,
+    pub g: u8,
+    pub b: u8,
+}
+
+impl Color {
+    pub fn black() -> Color {
+        Color { r: 0, g: 0, b: 0 }
+    }
+}
+
 pub struct Image {
-    pub data: Vec<Vec<u8>>,
-    pub width: usize,
-    pub height: usize,
+    pub data: Vec<Vec<Color>>,
+    pub width: u32,
+    pub height: u32,
 }
 
 impl Camera {
-    pub fn new(width: usize, height: usize) -> Camera {
+    pub fn new(width: u32, height: u32) -> Camera {
         Camera {
             width,
             height,
@@ -30,8 +43,8 @@ impl Camera {
         }
     }
 
-    pub fn render(&self, geometry: Box<dyn Geometry>) -> Image {
-        let mut data = vec![vec![0; self.height]; self.width];
+    pub fn render(&self, geometry: &Box<dyn Geometry>) -> Image {
+        let mut data = vec![vec![Color::black(); self.height as usize]; self.width as usize];
         let left = self.up.cross(self.forward);
 
         for i in 0..self.width {
@@ -42,15 +55,15 @@ impl Camera {
                 let dir = (pt_img_plane - self.position).normalized();
 
                 let color = self.ray_march(&dir);
-                data[i][j] = color;
+                data[i as usize][j as usize] = color;
             }
         }
 
         Image { data, width: self.width, height: self.height }
     }
 
-    fn ray_march(&self, direction: &Vec3) -> u8 {
-        0
+    fn ray_march(&self, direction: &Vec3) -> Color {
+        Color::black()
     }
 
     fn compute_normal(position: &Vec3) -> Vec3 {

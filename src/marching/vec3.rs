@@ -1,18 +1,11 @@
 use std::ops;
 
+#[derive(Clone, Copy)]
 pub struct Vec3 {
     x: f32,
     y: f32,
     z: f32,
 }
-
-impl Clone for Vec3 {
-    fn clone(&self) -> Self {
-        Vec3::new(self.x, self.y, self.z)
-    }
-}
-
-impl Copy for Vec3 {}
 
 impl Vec3 {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
