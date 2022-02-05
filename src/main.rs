@@ -4,9 +4,9 @@ use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::{Color, PixelFormatEnum};
 use sdl2::rect::Rect;
-use sdl2::render::{WindowCanvas};
+use sdl2::render::WindowCanvas;
 
-use crate::marching::{Camera, Geometry, Image, Sphere, Translation, Vec3};
+use crate::marching::{Camera, Geometry, Image, Prism, Smooth, Sphere, Translation, Vec3};
 
 mod marching;
 
@@ -47,8 +47,17 @@ fn main() -> Result<(), String> {
     let size = canvas.window().size();
     let mut event_pump = sdl_context.event_pump()?;
     let cam = Camera::new(size.0, size.1);
-    let sphere: Box<dyn Geometry> = Box::new(Sphere::new(1.));
-    let geometry: Box<dyn Geometry> = Box::new(Translation::new(Vec3::new(-1.24, 4., -1.25), sphere));
+    let sphere1 = geom!(Translation::new(Vec3::new(-1.25, 4., -1.25), geom!(Sphere::new(1.))));
+    let sphere2 = geom!(Translation::new(Vec3::new(1.25, 4., -1.25), geom!(Sphere::new(1.))));
+    let sphere3 = geom!(Translation::new(Vec3::new(-1.25, 4., 1.25), geom!(Sphere::new(1.))));
+    let sphere4 = geom!(Translation::new(Vec3::new(1.25, 4., 1.25), geom!(Sphere::new(1.))));
+    let sphere5 = geom!(Translation::new(Vec3::new(0., 4., 0.), geom!(Sphere::new(1.))));
+
+    let k = 1.;
+    let geometry = geom!(Smooth::new(k, sphere1, sphere2));
+    let geometry = geom!(Smooth::new(k, geometry, sphere3));
+    let geometry = geom!(Smooth::new(k, geometry, sphere4));
+    let geometry = geom!(Smooth::new(k, geometry, sphere5));
 
     'running: loop {
         // Events
