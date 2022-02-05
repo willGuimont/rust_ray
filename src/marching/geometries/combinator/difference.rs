@@ -1,13 +1,13 @@
 use crate::marching::geometries::geometry::Geometry;
-use crate::marching::Vec3;
+use crate::marching::{Geom, Vec3};
 
 pub struct Difference {
-    shape: Box<dyn Geometry>,
-    sub: Box<dyn Geometry>,
+    shape: Geom,
+    sub: Geom,
 }
 
 impl Difference {
-    pub fn new(shape: Box<dyn Geometry>, sub: Box<dyn Geometry>) -> Difference {
+    pub fn new(shape: Geom, sub: Geom) -> Difference {
         Difference { shape, sub }
     }
 }

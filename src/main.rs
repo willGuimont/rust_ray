@@ -1,4 +1,5 @@
 use std::time::Duration;
+use std::time::Instant;
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
@@ -6,11 +7,11 @@ use sdl2::pixels::{Color, PixelFormatEnum};
 use sdl2::rect::Rect;
 use sdl2::render::WindowCanvas;
 
-use crate::marching::{Camera, Geometry, Image, Prism, Smooth, Sphere, Translation, Vec3};
+use crate::marching::{Camera, Geom, Image, Smooth, Sphere, Translation, Vec3};
 
 mod marching;
 
-fn render(canvas: &mut WindowCanvas, img: Image) {
+fn render(canvas: &mut WindowCanvas, img: &Image) {
     let color = Color::RGB(127, 64, 255);
     canvas.set_draw_color(color);
     canvas.clear();
@@ -59,6 +60,11 @@ fn main() -> Result<(), String> {
     let geometry = geom!(Smooth::new(k, geometry, sphere4));
     let geometry = geom!(Smooth::new(k, geometry, sphere5));
 
+    let now = Instant::now();
+    let img = cam.render(&geometry);
+    let elapsed = now.elapsed();
+    println!("Rendering took: {:.2?}", elapsed);
+
     'running: loop {
         // Events
         for event in event_pump.poll_iter() {
@@ -72,10 +78,9 @@ fn main() -> Result<(), String> {
         }
 
         // Update
-        let img = cam.render(&geometry);
 
         // Render
-        render(&mut canvas, img);
+        render(&mut canvas, &img);
 
         // Sleep
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));

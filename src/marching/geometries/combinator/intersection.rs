@@ -1,12 +1,12 @@
 use crate::marching::geometries::geometry::Geometry;
-use crate::marching::Vec3;
+use crate::marching::{Geom, Vec3};
 
 pub struct Intersection {
-    shapes: Vec<Box<dyn Geometry>>,
+    shapes: Vec<Geom>,
 }
 
 impl Intersection {
-    pub fn new(shapes: Vec<Box<dyn Geometry>>) -> Intersection {
+    pub fn new(shapes: Vec<Geom>) -> Intersection {
         Intersection { shapes }
     }
 }

@@ -1,14 +1,14 @@
+use crate::marching::{Geom, Vec3};
 use crate::marching::geometries::geometry::Geometry;
-use crate::marching::Vec3;
 
 pub struct Smooth {
     k: f32,
-    a: Box<dyn Geometry>,
-    b: Box<dyn Geometry>,
+    a: Geom,
+    b: Geom,
 }
 
 impl Smooth {
-    pub fn new(k: f32, a: Box<dyn Geometry>, b: Box<dyn Geometry>) -> Smooth {
+    pub fn new(k: f32, a: Geom, b: Geom) -> Smooth {
         Smooth { k, a, b }
     }
 }

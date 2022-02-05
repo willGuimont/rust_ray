@@ -1,12 +1,12 @@
 use crate::marching::geometries::geometry::Geometry;
-use crate::marching::Vec3;
+use crate::marching::{Geom, Vec3};
 
 pub struct Union {
-    shapes: Vec<Box<dyn Geometry>>,
+    shapes: Vec<Geom>,
 }
 
 impl Union {
-    pub fn new(shapes: Vec<Box<dyn Geometry>>) -> Union {
+    pub fn new(shapes: Vec<Geom>) -> Union {
         Union { shapes }
     }
 }
