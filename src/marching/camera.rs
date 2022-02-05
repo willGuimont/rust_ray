@@ -37,7 +37,7 @@ pub struct Image {
 }
 
 impl Camera {
-    pub fn new(width: u32, height: u32) -> Camera {
+    pub fn new(width: u32, height: u32) -> Self {
         Camera {
             width,
             height,
