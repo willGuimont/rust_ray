@@ -2,11 +2,11 @@ use std::time::Duration;
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
-use sdl2::pixels::{Color, PixelFormat, PixelFormatEnum};
+use sdl2::pixels::{Color, PixelFormatEnum};
 use sdl2::rect::Rect;
-use sdl2::render::{Texture, TextureCreator, WindowCanvas};
+use sdl2::render::{WindowCanvas};
 
-use crate::marching::{Camera, Geometry, Image, Sphere};
+use crate::marching::{Camera, Geometry, Image, Sphere, Translation, Vec3};
 
 mod marching;
 
@@ -35,7 +35,7 @@ fn main() -> Result<(), String> {
     let sdl_context = sdl2::init()?;
     let video_subsystem = sdl_context.video()?;
 
-    let window = video_subsystem.window("rust ray", 800, 600)
+    let window = video_subsystem.window("rust ray", 800, 800)
         .position_centered()
         .build()
         .expect("could not initialize video subsystem");
@@ -47,7 +47,8 @@ fn main() -> Result<(), String> {
     let size = canvas.window().size();
     let mut event_pump = sdl_context.event_pump()?;
     let cam = Camera::new(size.0, size.1);
-    let geometry: Box<dyn Geometry> = Box::new(Sphere::new(1.));
+    let sphere: Box<dyn Geometry> = Box::new(Sphere::new(1.));
+    let geometry: Box<dyn Geometry> = Box::new(Translation::new(Vec3::new(-1.24, 4., -1.25), sphere));
 
     'running: loop {
         // Events
@@ -68,7 +69,7 @@ fn main() -> Result<(), String> {
         render(&mut canvas, img);
 
         // Sleep
-        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
+        ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 30));
     }
 
     Ok(())
