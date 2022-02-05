@@ -1,5 +1,3 @@
-use std::cmp::max;
-
 use crate::marching::geometries::Geometry;
 use crate::marching::Vec3;
 

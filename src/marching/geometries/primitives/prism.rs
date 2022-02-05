@@ -1,17 +1,17 @@
 use crate::marching::geometries::geometry::Geometry;
 use crate::marching::Vec3;
 
-pub struct Box {
+pub struct Prism {
     size: Vec3,
 }
 
-impl Box {
-    pub fn new(size: Vec3) -> Box {
-        Box { size }
+impl Prism {
+    pub fn new(size: Vec3) -> Prism {
+        Prism { size }
     }
 }
 
-impl Geometry for Box {
+impl Geometry for Prism {
     fn distance_from(&self, pos: Vec3) -> f32 {
         let x = f32::max(f32::abs(pos.x) - self.size.x, 0.);
         let y = f32::max(f32::abs(pos.y) - self.size.y, 0.);
